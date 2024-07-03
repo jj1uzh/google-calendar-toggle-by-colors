@@ -1,0 +1,27 @@
+{
+	"manifest_version": 3,
+	"name": "google-calendar-toggle-by-color",
+	"description": "A browser extension to toggle calendars by colors",
+	"version": "0.1.0",
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "gcaltoggle@jj1uzh.net",
+			"strict_min_version": "126.0"
+		}
+	},
+	"icons": {
+		"32": "icons/32.png"
+	},
+	"action": {
+		"default_icon": "icons/32.png",
+		"default_title": "google-calendar-toggle-by-color",
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"activeTab",
+		"scripting"
+	],
+	"host_permissions": [
+		"https://calendar.google.com/"
+	]
+}

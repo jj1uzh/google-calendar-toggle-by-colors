@@ -1,0 +1,16 @@
+{
+	"name": "google-calendar-toggle-by-color",
+	"version": "0.1.0",
+	"private": true,
+	"description": "A browser extension to toggle calendars of same colors at once.",
+	"scripts": {
+		"lint": "web-ext lint",
+		"build": "web-ext build --overwrite-dest",
+		"dev": "web-ext run"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"create-web-ext": "^1.0.0",
+		"web-ext": "^8.0.0"
+	}
+}
