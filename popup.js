@@ -18,7 +18,7 @@ function render(calendarGroups, tabId) {
 		const tr = document.createElement('tr')
 		tbody.appendChild(tr)
 		const colorTD = document.createElement('td')
-		colorTD.textContent = calendarNames.join(',')
+		colorTD.innerHTML = calendarNames.map(n => document.createTextNode(n).textContent).join('<br>')
 		colorTD.style.setProperty('border', `3px solid ${color}`)
 		tr.appendChild(colorTD)
 		const toggleOnButtonTD = document.createElement('td')
