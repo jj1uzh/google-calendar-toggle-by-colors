@@ -79,6 +79,28 @@ function render(calendarGroups, tabId) {
         await browser.scripting.executeScript({ func: toggle, args: [color, false], target: { tabId } })
       })()
     })
+    const showDayButtonTD = document.createElement('td')
+    tr.appendChild(showDayButtonTD)
+    const showDayButton = document.createElement('button')
+    showDayButton.textContent = 'show(d)'
+    showDayButtonTD.appendChild(showDayButton)
+    showDayButton.addEventListener('click', () => {
+      (async function () {
+        await browser.scripting.executeScript({ func: toggle, args: [color, true], target: { tabId } })
+        await browser.scripting.executeScript({ func: async () => { document.querySelector('[data-active-view]').querySelector('button').click(); await new Promise(r => setTimeout(r, 200)); document.querySelector('[data-viewkey="day"]').click() }, target: { tabId } })
+      })()
+    })
+    const hideWeekButtonTD = document.createElement('td')
+    tr.appendChild(hideWeekButtonTD)
+    const hideWeekButton = document.createElement('button')
+    hideWeekButton.textContent = 'hide(w)'
+    hideWeekButtonTD.appendChild(hideWeekButton)
+    hideWeekButton.addEventListener('click', () => {
+      (async function () {
+        await browser.scripting.executeScript({ func: toggle, args: [color, false], target: { tabId } })
+        await browser.scripting.executeScript({ func: async () => { document.querySelector('[data-active-view]').querySelector('button').click(); await new Promise(r => setTimeout(r, 200)); document.querySelector('[data-viewkey="week"]').click() }, target: { tabId } })
+      })()
+    })
   }
 }
 
