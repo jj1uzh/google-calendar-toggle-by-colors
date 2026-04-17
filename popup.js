@@ -67,6 +67,7 @@ function render(calendarGroups, tabId) {
     toggleOnButton.addEventListener('click', () => {
       (async function () {
         await browser.scripting.executeScript({ func: toggle, args: [color, true], target: { tabId } })
+        window.close()
       })()
     })
     const toggleOffButtonTd = document.createElement('td')
@@ -77,6 +78,7 @@ function render(calendarGroups, tabId) {
     toggleOffButton.addEventListener('click', () => {
       (async function () {
         await browser.scripting.executeScript({ func: toggle, args: [color, false], target: { tabId } })
+        window.close()
       })()
     })
     const showDayButtonTD = document.createElement('td')
@@ -88,6 +90,7 @@ function render(calendarGroups, tabId) {
       (async function () {
         await browser.scripting.executeScript({ func: toggle, args: [color, true], target: { tabId } })
         await browser.scripting.executeScript({ func: async () => { document.querySelector('[data-active-view]').querySelector('button').click(); await new Promise(r => setTimeout(r, 200)); document.querySelector('[data-viewkey="day"]').click() }, target: { tabId } })
+        window.close()
       })()
     })
     const hideWeekButtonTD = document.createElement('td')
@@ -99,6 +102,7 @@ function render(calendarGroups, tabId) {
       (async function () {
         await browser.scripting.executeScript({ func: toggle, args: [color, false], target: { tabId } })
         await browser.scripting.executeScript({ func: async () => { document.querySelector('[data-active-view]').querySelector('button').click(); await new Promise(r => setTimeout(r, 200)); document.querySelector('[data-viewkey="week"]').click() }, target: { tabId } })
+        window.close()
       })()
     })
   }
