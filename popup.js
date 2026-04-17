@@ -2,14 +2,52 @@ if (chrome) {
   browser = chrome
 }
 
-function toggle(targetColor, turnOn) {
-  const checkboxes = document.querySelectorAll('input[type=checkbox]')
-  for (const checkbox of checkboxes) {
-    const color = checkbox.parentElement.style.getPropertyValue('--checkbox-color');
-    if (targetColor === color && checkbox.checked !== turnOn) {
-      checkbox.click()
+async function toggle(targetColor, turnOn) {
+  function getScrollableAncestor(el) {
+    while (el && el !== document.documentElement) {
+      const style = window.getComputedStyle(el);
+      const overflow = style.overflowY;
+      if ((overflow === 'scroll' || overflow === 'auto') && el.scrollHeight > el.clientHeight) {
+        return el;
+      }
+      el = el.parentElement;
+    }
+    return document.documentElement;
+  }
+
+  const toggledNames = new Set();
+
+  function toggleVisible() {
+    for (const checkbox of document.querySelectorAll('input[type=checkbox]')) {
+      const color = checkbox.parentElement.style.getPropertyValue('--checkbox-color');
+      if (color !== targetColor) continue;
+      const calendar = checkbox.closest(':has([data-text])');
+      if (!calendar) continue;
+      const name = calendar.querySelector('[data-text]')?.getAttribute('data-text');
+      if (!name || toggledNames.has(name)) continue;
+      toggledNames.add(name);
+      if (checkbox.checked !== turnOn) {
+        checkbox.click();
+      }
     }
   }
+
+  const firstCheckbox = document.querySelector('input[type=checkbox]');
+  const container = firstCheckbox ? getScrollableAncestor(firstCheckbox) : document.documentElement;
+
+  const originalScrollTop = container.scrollTop;
+  container.scrollTop = 0;
+  await new Promise(r => setTimeout(r, 200));
+
+  while (true) {
+    toggleVisible();
+    const before = container.scrollTop;
+    container.scrollTop += container.clientHeight;
+    await new Promise(r => setTimeout(r, 200));
+    if (container.scrollTop <= before) break;
+  }
+
+  container.scrollTop = originalScrollTop;
 }
 
 function render(calendarGroups, tabId) {
